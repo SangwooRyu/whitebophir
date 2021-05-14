@@ -29,6 +29,8 @@
 	var erasing = false;
 
 	function startErasing(x, y, evt) {
+		if(Tools.adminOnly && !Tools.isAdmin) return;
+		
 		//Prevent the press from being interpreted by the browser
 		evt.preventDefault();
 		erasing = true;
@@ -90,7 +92,7 @@
 		},
 		"draw": draw,
 		"icon": "tools/eraser/icon.svg",
-		"mouseCursor": "crosshair",
+		"mouseCursor": Tools.adminOnly && !Tools.isAdmin? "url('tools/pencil/cursor_disable.svg'), crosshair" : "crosshair",
 		"showMarker": true,
 	});
 

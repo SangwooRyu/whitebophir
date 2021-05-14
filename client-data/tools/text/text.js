@@ -59,6 +59,8 @@
 	}
 
 	function clickHandler(x, y, evt, isTouchEvent) {
+		if(Tools.adminOnly && !Tools.isAdmin) return;
+		
 		//if(document.querySelector("#menu").offsetWidth>Tools.menu_width+3) return;
 		if (evt.target === input) return;
 		if (evt.target.tagName === "text") {
@@ -213,7 +215,7 @@
 		"draw": draw,
 		"stylesheet": "tools/text/text.css",
 		"icon": "tools/text/icon.svg",
-		"mouseCursor": "text"
+		"mouseCursor": Tools.adminOnly && !Tools.isAdmin? "url('tools/pencil/cursor_disable.svg'), crosshair" : "text"
 	});
 
 })(); //End of code isolation

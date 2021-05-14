@@ -37,6 +37,7 @@
         lastTime = performance.now(); //The time at which the last point was drawn
 
     function start(x, y, evt) {
+        if(Tools.adminOnly && !Tools.isAdmin) return;
 
         //Prevent the press from being interpreted by the browser
         evt.preventDefault();
@@ -164,7 +165,7 @@
             "release": stop,
         },
         "draw": draw,
-        "mouseCursor": "crosshair",
+        "mouseCursor": Tools.adminOnly && !Tools.isAdmin? "url('tools/pencil/cursor_disable.svg'), crosshair" : "crosshair",
         "stylesheet": "tools/ellipse/ellipse.css"
     };
     Tools.add(circleTool);

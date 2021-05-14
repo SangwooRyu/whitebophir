@@ -38,6 +38,7 @@
 	}
 
 	function startLine(x, y, evt) {
+		if(Tools.adminOnly && !Tools.isAdmin) return;
 
 		//Prevent the press from being interpreted by the browser
 		evt.preventDefault();
@@ -142,7 +143,7 @@
 			"active": false,
 		},
 		"draw": draw,
-		"mouseCursor": "crosshair",
+		"mouseCursor": Tools.adminOnly && !Tools.isAdmin? "url('tools/pencil/cursor_disable.svg'), crosshair" : "crosshair",
 		"icon": "tools/line/icon.svg",
 		"stylesheet": "tools/line/line.css"
 	};

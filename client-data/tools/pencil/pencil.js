@@ -67,6 +67,7 @@
 	}
 
 	function startLine(x, y, evt) {
+		if(Tools.adminOnly && !Tools.isAdmin) return;
 
 		//Prevent the press from being interpreted by the browser
 		evt.preventDefault();
@@ -222,7 +223,7 @@
 				restoreDrawingSize();
 			}
 		},
-		"mouseCursor": "url('tools/pencil/cursor.svg'), crosshair",
+		"mouseCursor": Tools.adminOnly && !Tools.isAdmin? "url('tools/pencil/cursor_disable.svg'), crosshair" : "url('tools/pencil/cursor.svg'), crosshair",
 		"icon": "tools/pencil/icon.svg",
 		"stylesheet": "tools/pencil/pencil.css",
 	};
