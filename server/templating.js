@@ -68,7 +68,7 @@ class BoardTemplate extends Template {
     const boardUriComponent = parts[1];
     params["boardUriComponent"] = boardUriComponent;
     params["board"] = decodeURIComponent(boardUriComponent);
-    params["hideMenu"] = parsedUrl.query.hideMenu == "true" || false;
+    params["hideMenu"] = parsedUrl.query.isAdmin == "false" || false;
     return params;
   }
 }
