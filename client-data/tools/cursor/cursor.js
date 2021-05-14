@@ -73,6 +73,7 @@
 
     function updateMarker() {
         if (!Tools.showMarker || !Tools.showMyCursor) return;
+        if (Tools.adminOnly && !Tools.isAdmin) return;
         var cur_time = Date.now();
         if (cur_time - lastCursorUpdate > MIN_CURSOR_UPDATES_INTERVAL_MS &&
             (sending || Tools.curTool.showMarker)) {
