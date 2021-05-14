@@ -90,6 +90,24 @@ Tools.boardName = (function () {
 	return decodeURIComponent(path[path.length - 1]);
 })();
 
+Tools.adminOnly = (function () {
+	var queryString = window.location.search;
+
+	let params = new URLSearchParams(queryString);
+	let adminOnly = params.get("adminOnly") === 'true'? true : false;
+
+	return adminOnly;
+})();
+
+Tools.isAdmin = (function () {
+	var queryString = window.location.search;
+
+	let params = new URLSearchParams(queryString);
+	let isAdmin = params.get("isAdmin") === 'true'? true : false;
+
+	return isAdmin;
+})();
+
 //Get the board as soon as the page is loaded
 Tools.socket.emit("getboard", Tools.boardName);
 
@@ -339,6 +357,9 @@ Tools.send = function (data, toolName) {
 };
 
 Tools.drawAndSend = function (data, tool) {
+	if(Tools.adminOnly && !Tools.isAdmin){
+		return;
+	}
 	if (tool == null) tool = Tools.curTool;
 	tool.draw(data, true);
 	Tools.send(data, tool.name);
