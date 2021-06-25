@@ -32,6 +32,12 @@
     function toggleGrid(evt) {
         index = (index + 1) % states.length;
         gridContainer.setAttributeNS(null, "fill", states[index]);
+        Tools.syncGrid(index);
+    }
+
+    function setIndex(idx){
+        index = idx;
+        gridContainer.setAttributeNS(null, "fill", states[index]);
     }
 
     function createPatterns() {
@@ -111,6 +117,7 @@
         "listeners": {},
         "icon": "tools/grid/icon.svg",
         "oneTouch": true,
+        "draw": setIndex,
         "onstart": toggleGrid,
         "mouseCursor": "crosshair",
     });

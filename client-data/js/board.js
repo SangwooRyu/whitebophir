@@ -72,6 +72,7 @@ Tools.connect = function () {
 
 	//Receive draw instructions from the server
 	this.socket.on("broadcast", function (msg) {
+		//console.log(msg);
 		handleMessage(msg).finally(function afterload() {
 			var loadingEl = document.getElementById("loadingMessage");
 			loadingEl.classList.add("hidden");
@@ -356,6 +357,18 @@ Tools.send = function (data, toolName) {
 	Tools.socket.emit('broadcast', message);
 };
 
+Tools.sendGridEvent = function (index) {
+	var d = {
+		'tool': 'grid',
+		'grid': index
+	}
+	var message = {
+		"board": Tools.boardName,
+		"data": d
+	};
+	Tools.socket.emit('broadcast', message);
+};
+
 Tools.drawAndSend = function (data, tool) {
 	if(Tools.adminOnly && !Tools.isAdmin){
 		return;
@@ -364,6 +377,14 @@ Tools.drawAndSend = function (data, tool) {
 	tool.draw(data, true);
 	Tools.send(data, tool.name);
 };
+
+Tools.syncGrid = function (index) {
+	if(Tools.adminOnly && !Tools.isAdmin){
+		return;
+	}
+
+	Tools.sendGridEvent(index);
+}
 
 //Object containing the messages that have been received before the corresponding tool
 //is loaded. keys : the name of the tool, values : array of messages for this tool
@@ -375,8 +396,13 @@ function messageForTool(message) {
 		tool = Tools.list[name];
 
 	if (tool) {
-		Tools.applyHooks(Tools.messageHooks, message);
-		tool.draw(message, false);
+		if(tool.name === "grid"){
+			tool.draw(message.grid);
+		}
+		else{
+			Tools.applyHooks(Tools.messageHooks, message);
+			tool.draw(message, false);
+		}
 	} else {
 		///We received a message destinated to a tool that we don't have
 		//So we add it to the pending messages
